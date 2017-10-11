@@ -60,7 +60,7 @@ public class ConfigEditor : Editor {
 			for (int i = 0; i < fieldInfoLength; i++)
 			{
 				//获取类型名，用作保存时的名字
-				string rName = typeFieldArr[i].ToString();
+				string rName = rConfig.name + "_" + typeFieldArr[i].ToString();
 				string path = PathTool.textPath + dynConfigPath + rName;
 
 				//检查文件是否存在
@@ -89,7 +89,7 @@ public class ConfigEditor : Editor {
 				//导出路径需要先检查是否存在
 				string assetPath = "Assets/Resources/" + PathTool.textPath;
 				string rName = typeFieldArr[i].ToString();
-				string resPath = assetPath + dynConfigPath + rName + ".asset";
+				string resPath = assetPath + dynConfigPath + rConfig.name + "_" + rName + ".asset";
 
 				if (!Directory.Exists(assetPath))
 					Directory.CreateDirectory(assetPath);
