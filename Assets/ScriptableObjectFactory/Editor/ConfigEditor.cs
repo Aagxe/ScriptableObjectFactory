@@ -35,10 +35,10 @@ public class ConfigEditor : Editor {
 			typeFieldArr[i] = fieldInfoArr[i].FieldType;
 		}
 
-		if (mScript == null)
+		//等同mScript.mInfo = new Info();初始化配置表的对象
+		for (int i = 0; i < fieldInfoLength; i++)
 		{
-			//等同mScript.mInfo = new Info();初始化配置表的对象
-			for (int i = 0; i < fieldInfoLength; i++)
+			if (fieldInfoArr[i].GetValue(mScript) == null)
 			{
 				fieldInfoArr[i].SetValue(mScript, typeFieldArr[i].Assembly.CreateInstance(typeFieldArr[i].ToString()));
 			}
