@@ -5,17 +5,17 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// 具体实现
-/// </summary>
 [CustomEditor(typeof(Config))]
 public class ConfigEditor : Editor {
+	/// <summary>
+	/// 具体实现
+	/// </summary>
 
-	FieldInfo[] fieldInfoArr;                           //存放Config中的所有公共字段
-	int fieldInfoLength;		                        //公共字段数量
-	Type[] typeFieldArr;                                //所有字段类型
-	Config mScript;	                                    //配置表
-	const string dynConfigPath = "dynConfig_model_";	//动态路径
+	FieldInfo[] fieldInfoArr;   //存放Config中的所有公共字段
+	int fieldInfoLength;
+	Type[] typeFieldArr;         //所有字段类型
+	Config mScript;
+	const string dynConfigPath = "dynConfig_model_";
 
 	void OnEnable()
 	{
@@ -42,7 +42,7 @@ public class ConfigEditor : Editor {
 			{
 				fieldInfoArr[i].SetValue(mScript, typeFieldArr[i].Assembly.CreateInstance(typeFieldArr[i].ToString()));
 			}
-		}
+		}		
 	}
 	public override void OnInspectorGUI()
 	{
@@ -100,6 +100,7 @@ public class ConfigEditor : Editor {
 					AssetDatabase.SaveAssets();
 				}
 
+				
 				var newScript = Instantiate(fieldInfoArr[i].GetValue(rConfig) as UnityEngine.Object);
 				AssetDatabase.CreateAsset(newScript, resPath);
 				AssetDatabase.SaveAssets();
@@ -107,4 +108,52 @@ public class ConfigEditor : Editor {
 			}
 		}
 	}
+
+// 	public void ImportAndExport(Config rConfig, string rName)
+// 	{
+// 		//导入
+// 		if(GUILayout.Button("Import"))
+// 		{
+// 			Info getInfo = null;
+// 			string path = PathTool.textPath + dynConfigPath + rName;
+// 
+// 			if (!File.Exists("Assets/Resources/" + path +".asset"))
+// 			{
+// 				Debug.Log("File Not Found !!!");
+// 				return;
+// 			}
+// 
+// 			//加载路径，自己定义一个位置
+// 			getInfo = Resources.Load(path) as Info;
+// 
+// 			getInfo = (Info)Instantiate(getInfo);
+// 
+// 			if (getInfo != null)
+// 			{
+// 				rConfig.mInfo = getInfo;
+// 			}
+// 		}
+// 
+// 		//导出
+// 		if (GUILayout.Button("Export"))
+// 		{
+// 			//导出路径需要先检查是否存在
+// 			string assetPath = "Assets/Resources/" + PathTool.textPath;
+// 			string resPath = assetPath + dynConfigPath + rName + ".asset";
+// 
+// 			if (!Directory.Exists(assetPath))
+// 				Directory.CreateDirectory(assetPath);
+// 
+// 			if(File.Exists(resPath))
+// 			{
+// 				AssetDatabase.DeleteAsset(resPath);
+// 				AssetDatabase.SaveAssets();
+//             }
+// 
+// 			Info newScript = (Info)Instantiate(rConfig.mInfo);
+// 			AssetDatabase.CreateAsset(newScript, resPath);
+// 			AssetDatabase.SaveAssets();
+// 			AssetDatabase.Refresh();
+//         }
+// 	}
 }
